@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//controller per aggiungere dati al file Json che funge da DB
 Route::post('/store', 'Api\UserController@store');

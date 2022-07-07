@@ -1924,29 +1924,30 @@ __webpack_require__.r(__webpack_exports__);
     addUser: function addUser() {
       var _this = this;
 
+      //metto a true le variabili così da cambiare la scritta nel button e bloccare gli input
       this.formSending = true;
-      this.inputBlock = true;
+      this.inputBlock = true; //eseguo l'invio dei dati
+
       axios.post("/api/store", {
         "name": this.name,
         "surname": this.surname,
         "email": this.email
       }).then(function (response) {
         if (response.data.errors) {
+          //in caso di errore di validazione, li inserisco in errors e rimetto a false le variabili precedentemente modificate
           _this.errors = response.data.errors;
           _this.formSending = false;
           _this.inputBlock = false;
         } else {
-          _this.inputBlock = true;
+          //nel caso in cui la validazione sia passata apro la modale di ringraziamento e resetto il form
+          _this.name = '';
+          _this.surname = '';
+          _this.email = '';
+          _this.formSending = false;
+          _this.inputBlock = false;
           $("#thx").modal();
         }
       });
-    },
-    reset: function reset() {
-      this.name = '';
-      this.surname = '';
-      this.email = '';
-      this.formSending = false;
-      this.inputBlock = false;
     }
   }
 });
@@ -1992,27 +1993,7 @@ var render = function render() {
     staticClass: "container"
   }, [_c("div", {
     staticClass: "row"
-  }, [_c("div", {
-    staticClass: "modal",
-    attrs: {
-      tabindex: "-1",
-      id: "thx"
-    }
-  }, [_c("div", {
-    staticClass: "modal-dialog"
-  }, [_c("div", {
-    staticClass: "modal-content text-center"
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
-    staticClass: "modal-footer px-2"
-  }, [_c("button", {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "data-dismiss": "modal"
-    },
-    on: {
-      click: _vm.reset
-    }
-  }, [_vm._v("Close")])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "col"
   }, [_c("h1", {
     staticClass: "text-center text-uppercase"
@@ -2151,17 +2132,29 @@ var staticRenderFns = [function () {
       _c = _vm._self._c;
 
   return _c("div", {
+    staticClass: "modal",
+    attrs: {
+      tabindex: "-1",
+      id: "thx"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog"
+  }, [_c("div", {
+    staticClass: "modal-content text-center"
+  }, [_c("div", {
     staticClass: "modal-header"
   }, [_c("h5", {
     staticClass: "modal-title w-100"
-  }, [_vm._v("Thanks for contacting us 🎉")])]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
+  }, [_vm._v("Thanks for contacting us 🎉")])]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("p", [_vm._v("We will contact you as soon as possible")])]);
+  }, [_c("p", [_vm._v("We will contact you as soon as possible")])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer px-2"
+  }, [_c("button", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "data-dismiss": "modal"
+    }
+  }, [_vm._v("Close")])])])])]);
 }];
 render._withStripped = true;
 

@@ -22,12 +22,13 @@ class UserController extends Controller
        ]);
 
        if($validator->fails()){
+        //Se la validazione non va a buon fine ritorno gli errori
         return response()->json([
             'errors' => $validator->errors(),
             'success' => false
         ]);
         }else{
-            //Se la validazione va a buon fine aggiungo i dati nel DB
+            //Se la validazione va a buon fine aggiungo i dati nel DB e ritorno un json 
 
             $user = new User();
             $user->name = $data["name"];

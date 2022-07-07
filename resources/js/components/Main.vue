@@ -15,7 +15,7 @@
                             <p>We will contact you as soon as possible</p>
                         </div>
                         <div class="modal-footer px-2">
-                            <button class="btn btn-primary" data-dismiss="modal" @click="reset">Close</button>
+                            <button class="btn btn-primary" data-dismiss="modal">Close</button>
                         </div>
                         </div>
                     </div>
@@ -74,9 +74,11 @@ export default {
     },
     methods: {
         addUser(){
+            //metto a true le variabili così da cambiare la scritta nel button e bloccare gli input
             this.formSending = true;
             this.inputBlock = true;
 
+            //eseguo l'invio dei dati
             axios.post("/api/store", {
                 "name" : this.name,
                 "surname" : this.surname,
@@ -84,22 +86,21 @@ export default {
             }).then(response =>{
 
                 if(response.data.errors){
+                    //in caso di errore di validazione, li inserisco in errors e rimetto a false le variabili precedentemente modificate
                    this.errors = response.data.errors;
                     this.formSending = false;
                     this.inputBlock = false;
                 }else{
-                    this.inputBlock = true;
+                    //nel caso in cui la validazione sia passata apro la modale di ringraziamento e resetto il form
+                    this.name = '';
+                    this.surname = '';
+                    this.email = '';
+                    this.formSending = false;
+                    this.inputBlock = false;
                     $("#thx").modal();
                 }
             })
 
-        },
-        reset(){
-            this.name = '';
-            this.surname = '';
-            this.email = '';
-            this.formSending = false;
-            this.inputBlock = false;
         }
     }
 }

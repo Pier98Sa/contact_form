@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('home');
 });
+ */
+
+ //Rotta catch all che mi riporta sempre alla home 
+Route::get("{any?}", function(){
+    return view ("home");
+ })->where("any", ".*");
