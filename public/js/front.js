@@ -1912,8 +1912,28 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Main',
   data: function data() {
     return {
-      errors: []
+      errors: [],
+      name: '',
+      surname: '',
+      email: ''
     };
+  },
+  methods: {
+    addUser: function addUser() {
+      var _this = this;
+
+      axios.post("/api/store", {
+        "name": this.name,
+        "surname": this.surname,
+        "email": this.email
+      }).then(function (response) {
+        if (response.data.errors) {
+          _this.errors = response.data.errors;
+          console.log(_this.errors);
+        } //else
+
+      });
+    }
   }
 });
 
@@ -1962,13 +1982,26 @@ var render = function render() {
     staticClass: "col"
   }, [_c("h1", {
     staticClass: "text-center text-uppercase"
-  }, [_vm._v("Contact Form")]), _vm._v(" "), _c("form", [_c("div", {
+  }, [_vm._v("Contact Form")]), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.addUser.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
       "for": "name"
     }
   }, [_vm._v("Name")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.name,
+      expression: "name"
+    }],
     staticClass: "form-control",
     "class": {
       "is-invalid": _vm.errors.name
@@ -1976,7 +2009,17 @@ var render = function render() {
     attrs: {
       type: "text",
       id: "name",
-      required: ""
+      required: "",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.name = $event.target.value;
+      }
     }
   }), _vm._v(" "), _vm._l(_vm.errors.name, function (error, index) {
     return _c("p", {
@@ -1990,6 +2033,12 @@ var render = function render() {
       "for": "surname"
     }
   }, [_vm._v("Surname")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.surname,
+      expression: "surname"
+    }],
     staticClass: "form-control",
     "class": {
       "is-invalid": _vm.errors.surname
@@ -1997,7 +2046,17 @@ var render = function render() {
     attrs: {
       type: "text",
       id: "surname",
-      required: ""
+      required: "",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.surname
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.surname = $event.target.value;
+      }
     }
   }), _vm._v(" "), _vm._l(_vm.errors.surname, function (error, index) {
     return _c("p", {
@@ -2011,6 +2070,12 @@ var render = function render() {
       "for": "email"
     }
   }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
     staticClass: "form-control",
     "class": {
       "is-invalid": _vm.errors.email
@@ -2018,7 +2083,17 @@ var render = function render() {
     attrs: {
       type: "email",
       id: "email",
-      required: ""
+      required: "",
+      maxlength: "100"
+    },
+    domProps: {
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
     }
   }), _vm._v(" "), _vm._l(_vm.errors.email, function (error, index) {
     return _c("p", {
