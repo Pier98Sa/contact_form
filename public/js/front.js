@@ -1915,13 +1915,17 @@ __webpack_require__.r(__webpack_exports__);
       errors: [],
       name: '',
       surname: '',
-      email: ''
+      email: '',
+      formSending: false,
+      inputBlock: false
     };
   },
   methods: {
     addUser: function addUser() {
       var _this = this;
 
+      this.formSending = true;
+      this.inputBlock = true;
       axios.post("/api/store", {
         "name": this.name,
         "surname": this.surname,
@@ -1929,10 +1933,20 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         if (response.data.errors) {
           _this.errors = response.data.errors;
-          console.log(_this.errors);
-        } //else
-
+          _this.formSending = false;
+          _this.inputBlock = false;
+        } else {
+          _this.inputBlock = true;
+          $("#thx").modal();
+        }
       });
+    },
+    reset: function reset() {
+      this.name = '';
+      this.surname = '';
+      this.email = '';
+      this.formSending = false;
+      this.inputBlock = false;
     }
   }
 });
@@ -1979,6 +1993,26 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "row"
   }, [_c("div", {
+    staticClass: "modal",
+    attrs: {
+      tabindex: "-1",
+      id: "thx"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog"
+  }, [_c("div", {
+    staticClass: "modal-content text-center"
+  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer px-2"
+  }, [_c("button", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "data-dismiss": "modal"
+    },
+    on: {
+      click: _vm.reset
+    }
+  }, [_vm._v("Close")])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col"
   }, [_c("h1", {
     staticClass: "text-center text-uppercase"
@@ -2008,6 +2042,7 @@ var render = function render() {
     },
     attrs: {
       type: "text",
+      disabled: _vm.inputBlock,
       id: "name",
       required: "",
       maxlength: "50"
@@ -2045,6 +2080,7 @@ var render = function render() {
     },
     attrs: {
       type: "text",
+      disabled: _vm.inputBlock,
       id: "surname",
       required: "",
       maxlength: "50"
@@ -2082,6 +2118,7 @@ var render = function render() {
     },
     attrs: {
       type: "email",
+      disabled: _vm.inputBlock,
       id: "email",
       required: "",
       maxlength: "100"
@@ -2103,12 +2140,29 @@ var render = function render() {
   })], 2), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
+      disabled: _vm.formSending,
       type: "submit"
     }
-  }, [_vm._v("Submit")])])])])])]);
+  }, [_vm._v(_vm._s(_vm.formSending ? "Sending ..." : "Submit"))])])])])])]);
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title w-100"
+  }, [_vm._v("Thanks for contacting us 🎉")])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "modal-body"
+  }, [_c("p", [_vm._v("We will contact you as soon as possible")])]);
+}];
 render._withStripped = true;
 
 
